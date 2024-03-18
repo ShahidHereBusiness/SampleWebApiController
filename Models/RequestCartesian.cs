@@ -12,10 +12,22 @@ namespace SOA
         /// <returns>Response Object</returns>
         public Response SayHello(Request req = null)
         {
-            if (req == null)
-                req = new Request { Status = -6 };
-            else if (!Enum.IsDefined(typeof(ResponseEnum), req.Status))
-                req.Status = -6;
+            try
+            {
+                if (req == null)
+                    req = new Request { Status = -6 };
+                else if (!Enum.IsDefined(typeof(ResponseEnum), req.Status))
+                    req.Status = -6;
+                else if (req.Status == 0)
+                    return new Response { Error = false };
+            }
+            catch {
+                req.Status = 1;
+            }
+            finally
+            {
+                // Diminish Here
+            }
             //Make Response
             return new Response
             {
